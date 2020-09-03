@@ -1,26 +1,22 @@
-# Docker_Volume_Synchronizator
-A container that syncronizes volumes within a Swarm cluster in asynchroned way. In fact, there are some scenarios 
-where you want keep synchronized some volume across the Swarm cluster. For example,
+# docker-volsync
+
+A container that synchronises volumes within a Swarm cluster asynchronously. In fact, there are some scenarios 
+where you want keep synchronised some volume across the Swarm cluster. For example,
 if you want ensure a simple high availability.
 
 The files are usually synchronized within 5 seconds.
 
 ## Components
-It is composed by Lsync and Csync2. It is designed to be deployed inside a Docker Stack.
+It requires Lsync and Csync2 and designed to be deployed inside a Docker Stack.
 
-## Build
-You can build the image giving the following commands:
-```
-git clone https://github.com/fabrizio2210/Docker_Volume_Synchronizator.git
-cd Docker_Volume_Synchronizator
-docker build -t docker_volume_sync -f docker/x86_64/Dockerfile .
-```
+## Image
+You can download the image using `docker pull boredazfcuk/volsync`
 
 ## Prerequisities
-The container works only in a docker Swarm cluster and has to be deployed in the 
-same Stack of the service that you want synchronize.
+The container requires a docker Swarm cluster. It cannot sync volumes for separate containers. Also, it must be deployed in the 
+same stack as the service you wish to synchronise.
 
-## Use
+## Usage
 I suggest to create a dedicated network beacause the ingress network doesn't do the service discovery.
 The service has to be created mounting the Docker socket (`/var/run/docker.sock`) and the volumes to synchronize.
 Then, you should pass a random key (only A-Z a-z 0-9 digit) as env var CSYNC2_KEY.
